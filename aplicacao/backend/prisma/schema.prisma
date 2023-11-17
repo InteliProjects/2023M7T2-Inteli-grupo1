@@ -1,0 +1,118 @@
+generator client {
+  provider  = "prisma-client-py"
+  interface = "asyncio"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id       String @id @default(uuid())
+  email    String @unique
+  name     String
+  password String
+  role     Role[] @default([USER])
+}
+
+model Airplane {
+  id               String   @id @default(uuid())
+  aircraftSerNum_1 String
+  description      String
+  flights          Flight[]
+}
+
+model Failure {
+  id               String  @id @default(uuid())
+  description      String?
+  aircraftSerNum_1 String?
+  Flight           Flight? @relation(fields: [failureId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  failureId        String?
+}
+
+model Flight {
+  id         String    @id @default(uuid())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  Airplane   Airplane? @relation(fields: [airplaneId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  airplaneId String?
+
+  Transformed Transformed?
+  Failure     Failure[]
+}
+
+model Predicted {
+  id            String      @id @default(uuid())
+  airplaneId    Int
+  cycles        Int
+  errorsPercent Float
+  flyDate       DateTime
+  version       String
+  createdAt     DateTime    @default(now())
+  transformed   Transformed @relation(fields: [transformedId], references: [id])
+  transformedId String      @unique
+}
+
+model Transformed {
+  id                        String     @id @default(uuid())
+  aircraftSerNum_1          String
+  amscHprsovDrivF_1a        Float?
+  amscHprsovDrivF_1b        Float?
+  amscHprsovDrivF_2b        Float?
+  amscPrsovDrivF_1a         Float?
+  amscPrsovDrivF_1b         Float?
+  amscPrsovDrivF_2b         Float?
+  basBleedLowPressF_1a      Float?
+  basBleedLowPressF_2b      Float?
+  basBleedLowTempF_1a       Float?
+  basBleedLowTempF_2b       Float?
+  basBleedOverPressF_1a     Float?
+  basBleedOverPressF_2b     Float?
+  basBleedOverTempF_1a      Float?
+  basBleedOverTempF_2b      Float?
+  bleedFavTmCmd_1a          Float?
+  bleedFavTmCmd_1b          Float?
+  bleedFavTmCmd_2a          Float?
+  bleedFavTmCmd_2b          Float?
+  bleedFavTmFbk_1a          Float?
+  bleedFavTmFbk_1b          Float?
+  bleedFavTmFbk_2b          Float?
+  bleedHprsovCmdStatus_1a   Float?
+  bleedHprsovCmdStatus_1b   Float?
+  bleedHprsovCmdStatus_2a   Float?
+  bleedHprsovCmdStatus_2b   Float?
+  bleedHprsovOpPosStatus_1a Float?
+  bleedHprsovOpPosStatus_1b Float?
+  bleedHprsovOpPosStatus_2a Float?
+  bleedHprsovOpPosStatus_2b Float?
+  bleedMonPress_1a          Float?
+  bleedMonPress_1b          Float?
+  bleedMonPress_2a          Float?
+  bleedMonPress_2b          Float?
+  bleedOnStatus_1a          Float?
+  bleedOnStatus_1b          Float?
+  bleedOnStatus_2b          Float?
+  bleedOverpressCas_2a      Float?
+  bleedOverpressCas_2b      Float?
+  bleedPrecoolDiffPress_1a  Float?
+  bleedPrecoolDiffPress_1b  Float?
+  bleedPrecoolDiffPress_2a  Float?
+  bleedPrecoolDiffPress_2b  Float?
+  bleedPrsovClPosStatus_1a  Float?
+  bleedPrsovClPosStatus_2a  Float?
+  bleedPrsovFbk_1a          Float?
+  bleedPrsovFbk_1b          Float?
+  bleedPrsovFbk_2b          Float?
+  flightMinutes             Float?
+  message0418DAA_1          Float?
+  message0422DAA_1          Float?
+  flight                    Flight     @relation(fields: [flightId], references: [id])
+  flightId                  String     @unique
+  Predicted                 Predicted?
+}

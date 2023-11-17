@@ -1,0 +1,15 @@
+*.csv
+*.xls
+*.xlsx
+*.tsv
+
+*.venv
+Include
+Lib
+Scripts
+pyvenv.cfg
+
+/notebooks/06120018
+/06120018
+
+/notebooks/read_data.ipynb

@@ -1,0 +1,36 @@
+version: '3'
+services:
+  # interface:
+  #   build:
+  #     context: /frontend/blueskai # Substitua pelo caminho real para a pasta da interface
+  #   ports:
+  #     - "3000:3000"
+  #   # Outras configurações específicas da interface
+
+  banco:
+    image: postgres:latest
+    container_name: db
+    ports:
+      - '3002:5432'
+    restart: always
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "yourpassword"
+      POSTGRES_DB: "AZUL"
+    volumes:
+      # So that our database's state is persisted locally
+      - ./docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+      # Where our data will be persisted
+      - my-db:/var/lib/posgresql
+
+  # backend:
+  #   image: giovanna0/modulo7:latest
+  #   container_name: backend
+  #   ports:
+  #     - '5000:5000'
+  #   depends_on:
+  #     - banco
+  #   restart: always
+
+volumes:
+  my-db:

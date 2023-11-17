@@ -1,0 +1,39 @@
+.title {
+  font-weight: 600;
+  padding: 20px;
+  color: black;
+}
+.cardSections {
+  display: flex;
+  align-items: center;
+}
+
+.planeIcon {
+  background-color: #d3ffef;
+  padding: 6px;
+  border-radius: 50%;
+}
+
+.clockIcon {
+  background-color: #caf1ff;
+  padding: 6px;
+  border-radius: 50%;
+}
+
+.alertIcon {
+  background-color: #ffa3cf;
+  padding: 6px;
+  border-radius: 50%;
+}
+
+.information {
+  padding: 10px;
+}
+
+.p {
+  font-size: 15px;
+}
+
+.h2 {
+  font-size: 24px;
+}

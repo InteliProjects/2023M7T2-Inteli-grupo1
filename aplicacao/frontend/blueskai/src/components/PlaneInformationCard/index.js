@@ -1,0 +1,1 @@
+export { default as PlaneInformationCard } from './PlaneInformationCard';
